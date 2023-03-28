@@ -15,13 +15,12 @@ namespace BattleShipFive
             string[,] gameBoard = new string[10, 10];
             string player = "X";
             int player1BoatAmound = 0;
+            int xCoordinate = 0;
+            int yCoordinate = 0;
 
             StartGame(gameBoard);
             MakeBoard(gameBoard);
-            for (int i = 0; i < 3; i++)
-            {
-
-            }
+            PlayerTurn(player, ref xCoordinate, ref yCoordinate, gameBoard);
         }
         //functions
         private static void StartGame(string[,] gameBoard)
@@ -49,7 +48,7 @@ namespace BattleShipFive
             Console.Write("  A  ");
             for (int l = 0; l < 10; l++)
             {
-                Console.Write("|         ");
+                Console.Write("|    " + gameBoard[l, 0] + "    ");
             }
             Console.Write("|");
             DrawDiagonalLines();
@@ -65,7 +64,7 @@ namespace BattleShipFive
             Console.Write("  B  ");
             for (int l = 0; l < 10; l++)
             {
-                Console.Write("|         ");
+                Console.Write("|    " + gameBoard[l, 1] + "    ");
             }
             Console.Write("|");
             DrawDiagonalLines();
@@ -81,7 +80,7 @@ namespace BattleShipFive
             Console.Write("  C  ");
             for (int l = 0; l < 10; l++)
             {
-                Console.Write("|         ");
+                Console.Write("|    " + gameBoard[l, 2] + "    ");
             }
             Console.Write("|");
             DrawDiagonalLines();
@@ -97,7 +96,7 @@ namespace BattleShipFive
             Console.Write("  D  ");
             for (int l = 0; l < 10; l++)
             {
-                Console.Write("|         ");
+                Console.Write("|    " + gameBoard[l, 3] + "    ");
             }
             Console.Write("|");
             DrawDiagonalLines();
@@ -113,7 +112,7 @@ namespace BattleShipFive
             Console.Write("  E  ");
             for (int l = 0; l < 10; l++)
             {
-                Console.Write("|         ");
+                Console.Write("|    " + gameBoard[l, 4] + "    ");
             }
             Console.Write("|");
             DrawDiagonalLines();
@@ -129,7 +128,7 @@ namespace BattleShipFive
             Console.Write("  F  ");
             for (int l = 0; l < 10; l++)
             {
-                Console.Write("|         ");
+                Console.Write("|    " + gameBoard[l, 5] + "    ");
             }
             Console.Write("|");
             DrawDiagonalLines();
@@ -145,12 +144,65 @@ namespace BattleShipFive
             Console.Write("  G  ");
             for (int l = 0; l < 10; l++)
             {
-                Console.Write("|         ");
+                Console.Write("|    " + gameBoard[l, 6] + "    ");
             }
             Console.Write("|");
             DrawDiagonalLines();
             Console.WriteLine("");
 
+            Console.Write("      ");
+            for (int j = 0; j < 10; j++)
+            {
+                Console.Write("————————— ");
+            }
+            DrawDiagonalLines();
+            Console.WriteLine(" ");
+            Console.Write("  H  ");
+            for (int l = 0; l < 10; l++)
+            {
+                Console.Write("|    " + gameBoard[l, 7] + "    ");
+            }
+            Console.Write("|");
+            DrawDiagonalLines();
+            Console.WriteLine("");
+
+            Console.Write("      ");
+            for (int j = 0; j < 10; j++)
+            {
+                Console.Write("————————— ");
+            }
+            DrawDiagonalLines();
+            Console.WriteLine(" ");
+            Console.Write("  I  ");
+            for (int l = 0; l < 10; l++)
+            {
+                Console.Write("|    " + gameBoard[l, 8] + "    ");
+            }
+            Console.Write("|");
+            DrawDiagonalLines();
+            Console.WriteLine("");
+
+            Console.Write("      ");
+            for (int j = 0; j < 10; j++)
+            {
+                Console.Write("————————— ");
+            }
+            DrawDiagonalLines();
+            Console.WriteLine(" ");
+            Console.Write("  J  ");
+            for (int l = 0; l < 10; l++)
+            {
+                Console.Write("|    " + gameBoard[l, 9] + "    ");
+            }
+            Console.Write("|");
+            DrawDiagonalLines();
+            Console.WriteLine("");
+            Console.Write("      ");
+            for (int j = 0; j < 10; j++)
+            {
+                Console.Write("————————— ");
+            }
+            Console.WriteLine("");
         }
         //draw diagonal line for board
         private static void DrawDiagonalLines()
@@ -166,6 +218,40 @@ namespace BattleShipFive
                 Console.Write("|");
 
             }
+        }
+        //player turn
+        private static void PlayerTurn(string player, ref int xCoordinate, ref int yCoordinate, string[,] gameBoard)
+        {
+            Console.WriteLine("Player: " + player);
+            Console.WriteLine("What x coordinate do you want to go");
+            xCoordinate = Convert.ToInt32(Console.ReadLine());
+            if (xCoordinate > 0)
+            {
+                if (xCoordinate < 10)
+                {
+                    Console.WriteLine("What y coordinate do you want to go");
+                    if (yCoordinate > 0)
+                    {
+                        if (yCoordinate < 10)
+                        {
+                            gameBoard[xCoordinate, yCoordinate] = player;
+                            MakeBoard(gameBoard);
+                        }
+                        else
+                        {
+                            Console.WriteLine("INVALID MOVE");
+                            PlayerTurn(player, ref xCoordinate, ref yCoordinate, gameBoard);
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("INVALID MOVE");
+                    PlayerTurn(player, ref xCoordinate, ref yCoordinate, gameBoard);
+                }
+            }
+
+            
         }
     }
 }
