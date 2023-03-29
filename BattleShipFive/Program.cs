@@ -14,16 +14,22 @@ namespace BattleShipFive
         {
             string[,] gameBoard = new string[10, 10];
             string player = "X";
-            int player1BoatAmound = 0;
+            int playerOneBoatAmount = 0;
             int xCoordinate = 0;
             int yCoordinate = 0;
+            List<string> playerOneXLocation = new List<string>();
+            List<string> playerOneYLocation = new List<string>();
+            int playerOneFirstBoatX = 0;
+            int playerOneFirstBoatY = 0;
+            int playerOneSecondBoatX = 0;
+            int playerOneSecondBoatY = 0;
 
-            StartGame(gameBoard);
+            StartGame(gameBoard, playerOneXLocation, playerOneYLocation, ref playerOneFirstBoatX, ref playerOneFirstBoatY, ref playerOneSecondBoatX, ref playerOneSecondBoatY);
             MakeBoard(gameBoard);
             PlayerTurn(player, ref xCoordinate, ref yCoordinate, gameBoard);
         }
         //functions
-        private static void StartGame(string[,] gameBoard)
+        private static void StartGame(string[,] gameBoard, List<string> playerOneXLocation, List<string> playerOneYLocation, ref int playerOneFirstBoatX, ref int playerOneFirstBoatY, ref int playerOneSecondBoatX, ref int playerOneSecondBoatY)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -32,6 +38,11 @@ namespace BattleShipFive
                     gameBoard[i, j] = " ";
                 }
             }
+            playerOneFirstBoatX = new Random().Next(0, 9);
+            playerOneFirstBoatY = new Random().Next(0, 9);
+            playerOneSecondBoatX = playerOneSecondBoatX + 2;
+            playerOneSecondBoatX = playerOneSecondBoatX + 2;
+            CheckBoat(ref playerOneFirstBoatX, ref playerOneFirstBoatY, ref playerOneSecondBoatX, ref playerOneSecondBoatY)
 
         }
         //draws the board
@@ -262,6 +273,17 @@ namespace BattleShipFive
                 PlayerTurn(player, ref xCoordinate, ref yCoordinate, gameBoard);
             }
             
+        }
+        //check if boat is valid
+        private static void CheckBoat(ref int playerOneFirstBoatX, ref int playerOneFirstBoatY, ref int playerOneSecondBoatX, ref int playerOneSecondBoatY)
+        {
+            if (playerOneSecondBoatX >= 0)
+            {
+                if (playerOneSecondBoatX <= 9)
+                {
+
+                }
+            }
         }
     }
 }
