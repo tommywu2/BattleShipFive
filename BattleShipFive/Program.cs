@@ -230,11 +230,12 @@ namespace BattleShipFive
                 if (xCoordinate < 10)
                 {
                     Console.WriteLine("What y coordinate do you want to go");
+                    yCoordinate = Convert.ToInt32(Console.ReadLine());
                     if (yCoordinate > 0)
                     {
                         if (yCoordinate < 10)
                         {
-                            gameBoard[xCoordinate, yCoordinate] = player;
+                            gameBoard[xCoordinate - 1, yCoordinate - 1] = player;
                             MakeBoard(gameBoard);
                         }
                         else
@@ -243,6 +244,11 @@ namespace BattleShipFive
                             PlayerTurn(player, ref xCoordinate, ref yCoordinate, gameBoard);
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("INVALID MOVE");
+                        PlayerTurn(player, ref xCoordinate, ref yCoordinate, gameBoard);
+                    }
                 }
                 else
                 {
@@ -250,7 +256,11 @@ namespace BattleShipFive
                     PlayerTurn(player, ref xCoordinate, ref yCoordinate, gameBoard);
                 }
             }
-
+            else
+            {
+                Console.WriteLine("INVALID MOVE");
+                PlayerTurn(player, ref xCoordinate, ref yCoordinate, gameBoard);
+            }
             
         }
     }
