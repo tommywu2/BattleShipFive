@@ -17,19 +17,18 @@ namespace BattleShipFive
             int playerOneBoatAmount = 0;
             int xCoordinate = 0;
             int yCoordinate = 0;
-            List<int> playerOneXLocation = new List<int>();
-            List<int> playerOneYLocation = new List<int>();
             int playerOneFirstBoatX = 0;
             int playerOneFirstBoatY = 0;
             int playerOneSecondBoatX = 0;
             int playerOneSecondBoatY = 0;
+            int boatRotation = 0;
 
-            StartGame(gameBoard, playerOneXLocation, playerOneYLocation, ref playerOneFirstBoatX, ref playerOneFirstBoatY, ref playerOneSecondBoatX, ref playerOneSecondBoatY, ref playerOneBoatAmount);
+            StartGame(gameBoard, ref playerOneFirstBoatX, ref playerOneFirstBoatY, ref playerOneSecondBoatX, ref playerOneSecondBoatY, ref playerOneBoatAmount, ref boatRotation);
             MakeBoard(gameBoard);
             PlayerTurn(player, ref xCoordinate, ref yCoordinate, gameBoard);
         }
         //functions
-        private static void StartGame(string[,] gameBoard, List<int> playerOneXLocation, List<int> playerOneYLocation, ref int playerOneFirstBoatX, ref int playerOneFirstBoatY, ref int playerOneSecondBoatX, ref int playerOneSecondBoatY, ref int playerOneBoatAmount)
+        private static void StartGame(string[,] gameBoard, ref int playerOneFirstBoatX, ref int playerOneFirstBoatY, ref int playerOneSecondBoatX, ref int playerOneSecondBoatY, ref int playerOneBoatAmount, ref int boatRotation)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -38,11 +37,8 @@ namespace BattleShipFive
                     gameBoard[i, j] = " ";
                 }
             }
-            playerOneFirstBoatX = new Random().Next(0, 9);
-            playerOneFirstBoatY = new Random().Next(0, 9);
-            playerOneSecondBoatX = playerOneFirstBoatX + 2;
-            playerOneSecondBoatY = playerOneFirstBoatY;
-            CheckBoat(ref playerOneFirstBoatX, ref playerOneFirstBoatY, ref playerOneSecondBoatX, ref playerOneSecondBoatY, playerOneXLocation, playerOneYLocation, ref playerOneBoatAmount);
+            
+            CheckBoatOne(gameBoard, ref playerOneFirstBoatX, ref playerOneFirstBoatY, ref playerOneSecondBoatX, ref playerOneSecondBoatY, ref playerOneBoatAmount, ref boatRotation);
             
         }
         //draws the board
@@ -275,10 +271,24 @@ namespace BattleShipFive
             
         }
         //check if boat is valid
-        private static void CheckBoat(ref int playerOneFirstBoatX, ref int playerOneFirstBoatY, ref int playerOneSecondBoatX, ref int playerOneSecondBoatY, List<int> playerOneXLocation, List<int> playerOneYLocation, ref int playerOneBoatAmount)
+        private static void CheckBoatOne(string[,] gameBoard, ref int playerOneFirstBoatX, ref int playerOneFirstBoatY, ref int playerOneSecondBoatX, ref int playerOneSecondBoatY, ref int playerOneBoatAmount, ref int boatRotation)
         {
             if (playerOneBoatAmount < 4)
             {
+                playerOneFirstBoatX = new Random().Next(0, 9);
+                playerOneFirstBoatY = new Random().Next(0, 9);
+                boatRotation = new Random().Next(1, 2);
+                if (boatRotation == 1)
+                {
+                    playerOneSecondBoatX = playerOneFirstBoatX + 2;
+                    playerOneSecondBoatY = playerOneFirstBoatY;
+                }
+                if (boatRotation == 2)
+                {
+                    playerOneSecondBoatX = playerOneFirstBoatX;
+                    playerOneSecondBoatY = playerOneFirstBoatY + 2;
+                }
+                
                 if (playerOneSecondBoatX >= 0)
                 {
                     if (playerOneSecondBoatX <= 9)
@@ -287,37 +297,42 @@ namespace BattleShipFive
                         {
                             if (playerOneSecondBoatY <= 9)
                             {
-                                playerOneXLocation.Add(playerOneFirstBoatX);
-                                playerOneYLocation.Add(playerOneFirstBoatY);
-                                playerOneXLocation.Add(playerOneSecondBoatX);
-                                playerOneYLocation.Add(playerOneSecondBoatY);
+                                gameBoard[playerOneFirstBoatX, playerOneFirstBoatY] = "X";
+                                gameBoard[playerOneSecondBoatX, playerOneSecondBoatY] = "X";
+                                if (playerOneSecondBoatX > playerOneFirstBoatX)
+                                {
+                                    gameBoard[playerOneSecondBoatX - 1, playerOneSecondBoatY] = "X";
+                                }
+                                if (playerOneSecondBoatY > playerOneFirstBoatY)
+                                {
+                                    gameBoard[playerOneSecondBoatX, playerOneSecondBoatY - 1] = "X";
+                                }
                                 playerOneBoatAmount = playerOneBoatAmount + 1;
                                 
                             }
                             else
                             {
-                                CheckBoat(ref playerOneFirstBoatX, ref playerOneFirstBoatY, ref playerOneSecondBoatX, ref playerOneSecondBoatY, playerOneXLocation, playerOneYLocation, ref playerOneBoatAmount);
+                                CheckBoatOne(gameBoard, ref playerOneFirstBoatX, ref playerOneFirstBoatY, ref playerOneSecondBoatX, ref playerOneSecondBoatY, ref playerOneBoatAmount, ref boatRotation);
                             }
                         }
                         else
                         {
-                            CheckBoat(ref playerOneFirstBoatX, ref playerOneFirstBoatY, ref playerOneSecondBoatX, ref playerOneSecondBoatY, playerOneXLocation, playerOneYLocation, ref playerOneBoatAmount);
+                            CheckBoatOne(gameBoard, ref playerOneFirstBoatX, ref playerOneFirstBoatY, ref playerOneSecondBoatX, ref playerOneSecondBoatY, ref playerOneBoatAmount, ref boatRotation);
                         }
                     }
                     else
                     {
-                        CheckBoat(ref playerOneFirstBoatX, ref playerOneFirstBoatY, ref playerOneSecondBoatX, ref playerOneSecondBoatY, playerOneXLocation, playerOneYLocation, ref playerOneBoatAmount);
+                        CheckBoatOne(gameBoard, ref playerOneFirstBoatX, ref playerOneFirstBoatY, ref playerOneSecondBoatX, ref playerOneSecondBoatY, ref playerOneBoatAmount, ref boatRotation);
                     }
                 }
                 else
                 {
-                    CheckBoat(ref playerOneFirstBoatX, ref playerOneFirstBoatY, ref playerOneSecondBoatX, ref playerOneSecondBoatY, playerOneXLocation, playerOneYLocation, ref playerOneBoatAmount);
+                    CheckBoatOne(gameBoard, ref playerOneFirstBoatX, ref playerOneFirstBoatY, ref playerOneSecondBoatX, ref playerOneSecondBoatY, ref playerOneBoatAmount, ref boatRotation);
                 }
             }
             else
             {
-                Console.WriteLine(playerOneXLocation.ToString());
-                Console.WriteLine(playerOneYLocation.ToString());
+
             }
             
         }
